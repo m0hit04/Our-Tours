@@ -16,6 +16,12 @@ function App() {
   }, []);
 
   //functions
+
+  const removeTours = (id) => {
+    const newTours = places.filter((place) => place.id !== id);
+    setPlaces(newTours);
+  };
+
   const fetchTours = async () => {
     setLoading(true);
     try {
@@ -35,10 +41,21 @@ function App() {
         <Loading />
       </main>
     );
-  } else {
+  }
+  if(places.length === 0){
+    return(
+      <main>
+        <div className="title" >
+          <h2>No tours left</h2>
+          <button className="btn" onClick={fetchTours} >Refresh</button>
+        </div>
+      </main>
+    )
+  } 
+  else {
     return (
       <main>
-        <Tours places={places} />
+        <Tours places={places} removeTours={removeTours} />
       </main>
     );
   }
